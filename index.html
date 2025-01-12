@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+    <style>
+      #calendar {
+        max-width: 900px;
+        margin: 40px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='calendar'></div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        function getDateOfCurrentWeek(dayIndex) {
+          var now = new Date();
+          var firstDayOfWeek = now.getDate() - now.getDay() + 1; // Monday
+          return new Date(now.setDate(firstDayOfWeek + dayIndex)).toISOString().split('T')[0];
+        }
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'timeGridWeek',
+          dayHeaderFormat: { weekday: 'long' }, // Show only the day names
+          headerToolbar: {
+            left: '',
+            center: '',
+            right: ''
+          },
+          hiddenDays: [0, 6], // Hide Sunday (0) and Saturday (6)
+          slotMinTime: '08:00:00', // Start time for visible slots
+          slotMaxTime: '22:00:00',  // End time for visible slots
+          allDaySlot: false, // Remove the all-day section
+          events: [
+            { title: 'Meeting', start: getDateOfCurrentWeek(0) + 'T10:00:00', end: getDateOfCurrentWeek(0) + 'T12:00:00' }, // Monday
+            { title: 'Lunch Break', start: getDateOfCurrentWeek(1) + 'T12:00:00', end: getDateOfCurrentWeek(1) + 'T13:00:00' }, // Tuesday
+            { title: 'Conference', start: getDateOfCurrentWeek(2) + 'T09:00:00', end: getDateOfCurrentWeek(2) + 'T11:00:00' }, // Wednesday
+            { title: 'Workshop', start: getDateOfCurrentWeek(3) + 'T14:00:00', end: getDateOfCurrentWeek(3) + 'T16:00:00' }, // Thursday
+            { title: 'Team Building', start: getDateOfCurrentWeek(4) + 'T15:00:00', end: getDateOfCurrentWeek(4) + 'T17:00:00' } // Friday
+          ]
+        });
+        calendar.render();
+      });
+    </script>
+  </body>
+</html>
